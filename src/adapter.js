@@ -75,24 +75,29 @@
       throw new Error('Not implemented');
     },
 
-    // Returns the caret's relative coordinates from body's left top corner.
-    getCaretPosition: function () {
-      var position = this._getCaretRelativePosition();
-      var offset = this.$el.offset();
+	// Returns the caret's relative coordinates from body's left top corner.
+	getCaretPosition: function () {
+		var position = this._getCaretRelativePosition();
+		console.log('position', position);
+		var offset = this.$el.offset();
+		console.log('offset', offset);
 
-      // Calculate the left top corner of `this.option.appendTo` element.
-      var $parent = this.option.appendTo;
-      if ($parent) {
-         if (!($parent instanceof $)) { $parent = $($parent); }
-         var parentOffset = $parent.offsetParent().offset();
-         offset.top -= parentOffset.top;
-         offset.left -= parentOffset.left;
-      }
+		// Calculate the left top corner of `this.option.appendTo` element.
+		var $parent = this.option.appendTo;
+		if ($parent) {
+			if (!($parent instanceof $)) { $parent = $($parent); }
+			var parentOffset = {
+				top: $parent.offsetParent()[0].offsetTop, left: $parent.offsetParent()[0].offsetLeft
+			};
+			console.log('parentOffset', parentOffset);
+			offset.top -= parentOffset.top;
+			offset.left -= parentOffset.left;
+		}
 
-      position.top += offset.top;
-      position.left += offset.left;
-      return position;
-    },
+		position.top += offset.top;
+		position.left += offset.left;
+		return position;
+	},
 
     // Focus on the element.
     focus: function () {
